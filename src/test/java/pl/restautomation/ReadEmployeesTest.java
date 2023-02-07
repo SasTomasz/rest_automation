@@ -2,6 +2,7 @@ package pl.restautomation;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +11,13 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 class ReadEmployeesTest {
+    private static final String BASE_URL = "http://localhost:3000/employees";
+
     @Test
     void readAllEmployeesTest() {
         Response response = given()
                 .when()
-                .get("http://localhost:3000/employees");
+                .get(BASE_URL);
 
         Assertions.assertEquals(200, response.getStatusCode());
         JsonPath json = response.jsonPath();
@@ -30,7 +33,7 @@ class ReadEmployeesTest {
     void readOneEmployeeTest() {
         Response response = given()
                 .when()
-                .get("http://localhost:3000/employees/1");
+                .get(BASE_URL + "/1");
 
         Assertions.assertEquals(200, response.getStatusCode());
 
@@ -43,11 +46,25 @@ class ReadEmployeesTest {
     }
 
     @Test
+    void readOneEmployeeV2Test() {
+        given()
+                .when()
+                .get(BASE_URL + "/1")
+                .then()
+                .statusCode(200)
+                .body("firstName", Matchers.equalTo("Bartek"))
+                .body("lastName", Matchers.equalTo("Czarny"))
+                .body("username", Matchers.equalTo("bczarny"))
+                .body("email", Matchers.equalTo("bczarny@testerprogramuje.pl"));
+    }
+
+
+    @Test
     void readOneUserWithPathVariableTest() {
         Response response = given()
                 .pathParam("id", "1")
                 .when()
-                .get("http://localhost:3000/employees/{id}");
+                .get(BASE_URL + "/{id}");
         Assertions.assertEquals(200, response.getStatusCode());
 
         JsonPath json = response.jsonPath();
@@ -62,10 +79,10 @@ class ReadEmployeesTest {
     @Test
     void readEmployeesWithQueryParamsTest() {
         Response response = given()
-               .queryParam("firstName", "Bartek")
-               .queryParam("lastName", "Czarny")
-               .when()
-               .get("http://localhost:3000/employees");
+                .queryParam("firstName", "Bartek")
+                .queryParam("lastName", "Czarny")
+                .when()
+                .get(BASE_URL);
 
         Assertions.assertEquals(200, response.getStatusCode());
 
