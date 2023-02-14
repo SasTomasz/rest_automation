@@ -1,4 +1,4 @@
-package pl.restautomation;
+package pl.restautomation.employees;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;

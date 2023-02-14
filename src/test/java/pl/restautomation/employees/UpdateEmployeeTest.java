@@ -1,4 +1,4 @@
-package pl.restautomation;
+package pl.restautomation.employees;
 
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
