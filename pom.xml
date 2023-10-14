@@ -34,7 +34,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.json</groupId>
+            <!--there is sth wrong with this dependency - github send warning -->
+            <!--<groupId>org.json</groupId> -->
             <artifactId>json</artifactId>
             <version>20220924</version>
         </dependency>
